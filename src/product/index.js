@@ -2,17 +2,16 @@ import { useParams } from "react-router-dom";
 import "./index.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { API_URL } from "../config/constants";
 
 function ProductPage() {
   const { id } = useParams();
   const [product, setProducts] = useState(null);
   useEffect(function () {
     axios
-      .get(
-        `https://dcaacafb-91a0-4325-8a95-8a8795b5462c.mock.pstmn.io/products/${id}`
-      )
+      .get(`${API_URL}/products/${id}`)
       .then(function (result) {
-        setProducts(result.data);
+        setProducts(result.data.product);
       })
       .catch(function (error) {
         console.log.error(error);
