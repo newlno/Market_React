@@ -1,12 +1,22 @@
-import { Form, Divider, Input, InputNumber, Button, Upload } from "antd";
+import {
+  Form,
+  Divider,
+  Input,
+  InputNumber,
+  Button,
+  Upload,
+  message,
+} from "antd";
 import FormItem from "antd/lib/form/FormItem";
 import "./index.css";
 import { useState } from "react";
 import { API_URL } from "../config/constants";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function UploadPage() {
   const [imageUrl, setImageUrl] = useState(null);
+  const history = useHistory();
   const onSubmit = (values) => {
     axios
       .post(`${API_URL}/products`, {
@@ -16,7 +26,14 @@ function UploadPage() {
         price: parseInt(values.price),
         imageUrl: imageUrl,
       })
-      .then((result) => {});
+      .then((result) => {
+        console.log(result);
+        history.replace("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error(`에러가 발생했습니다. ${error.message}`);
+      });
   };
   const onChangeImage = (info) => {
     if (info.file.status === "uploading") {
